@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"watchpid/internal/cli"
+	"github.com/Polaris-F/watchpid/internal/cli"
 )
 
 func main() {

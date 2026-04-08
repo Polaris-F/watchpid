@@ -44,6 +44,21 @@ Known limitation in this environment:
 
 - detached background validation is limited by the current sandbox, which reaps child processes aggressively
 
+## Install
+
+If Go is already available on the target machine, install directly with:
+
+```bash
+go install github.com/Polaris-F/watchpid/cmd/watchpid@latest
+watchpid version
+```
+
+If Go is not available, use the prebuilt artifacts from GitHub Releases.
+
+See also:
+
+- [docs/release.md](./docs/release.md)
+
 ## Command Model
 
 ```bash
@@ -55,6 +70,7 @@ watchpid cancel <watch_id>
 watchpid notify test
 watchpid notify setup
 watchpid notify setup --token <pushplus_token>
+watchpid version
 ```
 
 Behavior:
@@ -113,6 +129,8 @@ If no token is configured, `watchpid` prints a clear hint instead of failing sil
 ```bash
 go build ./...
 go build -o watchpid ./cmd/watchpid
+make build
+make release VERSION=v0.1.0
 ```
 
 Windows cross-compile example:
@@ -145,6 +163,7 @@ watchpid watch <pid> --detach --json
 See also:
 
 - [docs/agent-integration.md](./docs/agent-integration.md)
+- [docs/release.md](./docs/release.md)
 
 ## Project Layout
 

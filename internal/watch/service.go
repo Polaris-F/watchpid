@@ -14,12 +14,12 @@ import (
 	"syscall"
 	"time"
 
-	"watchpid/internal/config"
-	"watchpid/internal/daemon"
-	"watchpid/internal/model"
-	"watchpid/internal/notify"
-	"watchpid/internal/process"
-	"watchpid/internal/store"
+	"github.com/Polaris-F/watchpid/internal/config"
+	"github.com/Polaris-F/watchpid/internal/daemon"
+	"github.com/Polaris-F/watchpid/internal/model"
+	"github.com/Polaris-F/watchpid/internal/notify"
+	"github.com/Polaris-F/watchpid/internal/process"
+	"github.com/Polaris-F/watchpid/internal/store"
 )
 
 type Service struct {

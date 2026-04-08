@@ -7,7 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	"watchpid/internal/store"
+	"github.com/Polaris-F/watchpid/internal/store"
 )
 
 const (

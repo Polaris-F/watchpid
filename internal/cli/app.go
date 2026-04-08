@@ -11,15 +11,24 @@ import (
 	"strings"
 	"time"
 
-	"watchpid/internal/config"
-	"watchpid/internal/model"
-	"watchpid/internal/notify"
-	"watchpid/internal/store"
-	"watchpid/internal/watch"
+	"github.com/Polaris-F/watchpid/internal/buildinfo"
+	"github.com/Polaris-F/watchpid/internal/config"
+	"github.com/Polaris-F/watchpid/internal/model"
+	"github.com/Polaris-F/watchpid/internal/notify"
+	"github.com/Polaris-F/watchpid/internal/store"
+	"github.com/Polaris-F/watchpid/internal/watch"
 )
 
 func Run(args []string, stdout io.Writer, stderr io.Writer) int {
 	if len(args) == 0 {
+		printHelp(stdout)
+		return 0
+	}
+
+	switch args[0] {
+	case "version", "-v", "--version":
+		return runVersion(args[1:], stdout, stderr)
+	case "help", "-h", "--help":
 		printHelp(stdout)
 		return 0
 	}
@@ -45,14 +54,32 @@ func Run(args []string, stdout io.Writer, stderr io.Writer) int {
 		return runNotify(s, args[1:], stdout, stderr)
 	case "daemon":
 		return runDaemon(service, args[1:], stderr)
-	case "help", "-h", "--help":
-		printHelp(stdout)
-		return 0
 	default:
 		fmt.Fprintf(stderr, "unknown command: %s\n\n", args[0])
 		printHelp(stderr)
 		return 1
 	}
+}
+
+func runVersion(args []string, stdout io.Writer, stderr io.Writer) int {
+	args, jsonLate := extractBoolFlag(args, "--json")
+
+	fs := flag.NewFlagSet("version", flag.ContinueOnError)
+	fs.SetOutput(stderr)
+	jsonOut := fs.Bool("json", false, "print JSON")
+	if err := fs.Parse(args); err != nil {
+		return 2
+	}
+	if jsonLate {
+		*jsonOut = true
+	}
+
+	info := buildinfo.Current()
+	if *jsonOut {
+		return printJSON(stdout, info)
+	}
+	fmt.Fprintln(stdout, info.String())
+	return 0
 }
 
 func runWatch(service *watch.Service, args []string, stdout io.Writer, stderr io.Writer) int {
@@ -357,6 +384,7 @@ func printHelp(w io.Writer) {
 	fmt.Fprintln(w, "  cancel <watch_id> [--json]")
 	fmt.Fprintln(w, "  notify test [--json]")
 	fmt.Fprintln(w, "  notify setup [--token xxx] [--json]")
+	fmt.Fprintln(w, "  version [--json]")
 }
 
 func printJSON(w io.Writer, payload interface{}) int {

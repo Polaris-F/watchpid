@@ -8,7 +8,7 @@ import (
 	"sort"
 	"strings"
 
-	"watchpid/internal/model"
+	"github.com/Polaris-F/watchpid/internal/model"
 )
 
 type Store struct {

@@ -44,6 +44,21 @@
 
 - 在当前沙箱里，后台 `detach` 子进程会被执行环境回收，所以后台 watcher 不能在这里完整验收
 
+## 安装
+
+如果目标机器已经安装 Go，可以直接：
+
+```bash
+go install github.com/Polaris-F/watchpid/cmd/watchpid@latest
+watchpid version
+```
+
+如果不想装 Go，建议直接下载 GitHub Releases 里的预编译包。
+
+更完整的发布与安装说明见：
+
+- [docs/release.md](./docs/release.md)
+
 ## 命令模型
 
 ```bash
@@ -55,6 +70,7 @@ watchpid cancel <watch_id>
 watchpid notify test
 watchpid notify setup
 watchpid notify setup --token <pushplus_token>
+watchpid version
 ```
 
 语义说明：
@@ -113,6 +129,8 @@ watchpid notify test
 ```bash
 go build ./...
 go build -o watchpid ./cmd/watchpid
+make build
+make release VERSION=v0.1.0
 ```
 
 Windows 交叉编译示例：
@@ -145,6 +163,7 @@ watchpid watch <pid> --detach --json
 更多说明见：
 
 - [docs/agent-integration.md](./docs/agent-integration.md)
+- [docs/release.md](./docs/release.md)
 
 ## 目录结构
 
