@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"context"
 	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
 	"io"
@@ -265,7 +266,7 @@ func runNotify(s *store.Store, args []string, stdout io.Writer, stderr io.Writer
 			return printCommandError(*jsonOut, stdout, stderr, err)
 		}
 		if strings.TrimSpace(cfg.Notify.PushPlus.Token) == "" {
-			return printCommandError(*jsonOut, stdout, stderr, fmt.Errorf(config.MissingTokenHint(s)))
+			return printCommandError(*jsonOut, stdout, stderr, errors.New(config.MissingTokenHint(s)))
 		}
 		n := notify.PushPlus{Token: cfg.Notify.PushPlus.Token}
 		msg := notify.Message{
